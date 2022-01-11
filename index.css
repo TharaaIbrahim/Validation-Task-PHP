@@ -1,0 +1,30 @@
+body {
+  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-5DedxwuZoSpDwvbfr3AEKzOzk-tDTRhj9g&usqp=CAU);
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.178);
+}
+button {
+  cursor: pointer;
+}
+.login {
+  padding: 0.5rem;
+}
+.register {
+  padding: 0.5rem;
+  background-color: #007aff;
+  color: white;
+  border: 1px solid white;
+}
