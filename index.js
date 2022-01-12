@@ -3,8 +3,6 @@ const password2 = document.getElementById("password2");
 const email = document.getElementById("email");
 const email_regex = "[a-z0-9]+@[a-z]+.[a-z]{2,3}";
 const password_regex = `(?=.{8,})`;
-const loginUser = document.getElementById("loginUser");
-const loginPassword = document.getElementById("loginPassword");
 
 function validation() {
   if (emailValidation() && passValidation() && matchingPassword()) {
@@ -13,11 +11,6 @@ function validation() {
     return false;
   }
 }
-// function loginValidation(){
-//  const emailMsgError=document.getElementById("emailMsgError");
-// const passMsgError=document.getElementById("passMsgError");
-// if(loginUser.value===)
-// }
 
 function emailValidation() {
   const emailMsg = document.getElementById("emailMsg");
@@ -39,7 +32,7 @@ function passValidation() {
     passwordMsg.style.color = "green";
     return true;
   } else {
-    passwordMsg.innerText = "Invalid";
+    passwordMsg.innerText = "Password must be 8 characters at least";
     passwordMsg.style.color = "red";
     return false;
   }

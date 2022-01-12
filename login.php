@@ -84,11 +84,11 @@
                         header('Location: welcome.php'); 
                     }elseif($user["email"]!==$_POST["loginUser"]){
                         // header("Location:index.php");
-                        $_SESSION["errorEMsg"]="Incorrect Email.";
+                        $_SESSION["errorEMsg"]="Incorrect Email";
                         $_SESSION["errorPMsg"]=" ";
                     }elseif($user["email"]===$_POST["loginUser"] && $user["password"]!==$_POST["loginPassword"]){
                         // header("Location:index.php");
-                        $_SESSION["errorPMsg"]="Incorrect password.";
+                        $_SESSION["errorPMsg"]="Incorrect password";
                         $_SESSION["errorEMsg"]=" ";
                         break;
                     }
