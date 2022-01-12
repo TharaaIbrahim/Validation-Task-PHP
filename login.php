@@ -1,6 +1,4 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 
 <!---*************welcome this is my simple empty strap by John Niro Yumang ******************* -->
@@ -18,7 +16,9 @@
 	<head>
 		<script src="jquery/jquery.min.js"></script>
 		<!---- jquery link local dont forget to place this in first than other script or link or may not work ---->
-		
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<!---- boostrap.min link local ----->
 		
@@ -38,7 +38,6 @@
         <?php 
         $userData=array(["name"=>"tharaa","email"=>"tharaa9@live.com","password"=>"123"]);
         $userEmailError=$loginEmailMsg=$passwordMatch=$passwordError=$loginPassMsg="";
- 
 
              if (isset($_POST['email'])){
             $user=array();
@@ -47,7 +46,7 @@
                $userEmailError="";
             }else $userEmailError= "email is unvalid";
 
-            $regexPass = '/^.{8}$/';
+            $regexPass = '/^.{8,}$/';
             if(preg_match($regexPass,$_POST['password'])){
                 if($_POST['password']===$_POST['password2']){
                $passwordMatch="Match";
@@ -64,7 +63,7 @@
                $user=array("name"=>$_POST['username'],"email"=>$_POST['email'],"password"=>$_POST['password']);
                if( $_SESSION['userData']){
                     $oldData=$_SESSION["userData"];
-               array_push($oldData,$user);
+                    array_push($oldData,$user);
                $_SESSION["userData"]=$oldData;
                }else{
                    array_push($userData,$user);
@@ -106,7 +105,7 @@
  			<hr>
 			<div class="row">
 				<div class="col-md-5">
- 					<form role="form" method="post" onsubmit="validation()" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+ 					<form role="form" method="post" onsubmit="return validation()" action="">
 						<fieldset>							
 							<p class="text-uppercase pull-center"> SIGN UP.</p>	
  							<div class="form-group">
@@ -170,6 +169,7 @@
 			<small id="passwordHelpInline" class="text-muted"> Developer:<a href="http://www.psau.edu.ph/"> Pampanga state agricultural university ?</a> BS. Information and technology students @2017 Credits: <a href="https://v4-alpha.getbootstrap.com/">boostrap v4.</a></small>
 		</p>
 	</div>
+	
     <script src="./index.js"> </script>
 	</body>
 	
