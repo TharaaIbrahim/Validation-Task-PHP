@@ -36,6 +36,11 @@
 	</head>
 	<body>
         <?php 
+		//create connection
+		$servername = "localhost";
+		$username = "root";
+		$password = "";
+		$dbname = "store";
         $userData=array(["name"=>"tharaa","email"=>"tharaa9@live.com","password"=>"123"]);
         $userEmailError=$loginEmailMsg=$passwordMatch=$passwordError=$loginPassMsg="";
 
@@ -51,49 +56,84 @@
                 if($_POST['password']===$_POST['password2']){
                $passwordMatch="Match";
            }else{
-               $passwordMatch="Doesn't Match";
-           }
-                $array=array("password"=>$_POST['password']);
-                array_merge($user,$array);
-            }else{
-             $passwordError="Mush be 8 Characters";
-            }
+			$passwordError="Mush be 8 Characters";
+		   }
+                // $array=array("password"=>$_POST['password']);
+                // array_merge($user,$array);
+            // }else{
+            //  $passwordError="Mush be 8 Characters";
+            // }
+			}
             
            if(preg_match($regex,$_POST['email']) && preg_match($regexPass,$_POST['password']) && $_POST['password']===$_POST['password2']){
-               $user=array("name"=>$_POST['username'],"email"=>$_POST['email'],"password"=>$_POST['password']);
-               if( $_SESSION['userData']){
-                    $oldData=$_SESSION["userData"];
-                    array_push($oldData,$user);
-               $_SESSION["userData"]=$oldData;
-               }else{
-                   array_push($userData,$user);
-                   $_SESSION["userData"]=$userData;
-               }
+            //    $user=array("name"=>$_POST['username'],"email"=>$_POST['email'],"password"=>$_POST['password']);
+            //    if(isset($_SESSION['userData']) ){
+            //         $oldData=$_SESSION["userData"];
+            //         array_push($oldData,$user);
+            //    $_SESSION["userData"]=$oldData;
+            //    }else{
+            //        array_push($userData,$user);
+            //        $_SESSION["userData"]=$userData;
+            //    }
+            
+		
+			$username=$_POST['username'];
+			$useremail=$_POST['email'];
+			$userpassword=$_POST['password'];
+
+			try{
+				$connection=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
+				// $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$sql="INSERT INTO users( `username`, `email`, `password`) VALUES ('$username','$useremail','$userpassword')";
+				$connection->exec($sql);
+				echo "New record created successfully";
+			}catch(PDOExecption $e){
+                echo $sql . "<br>" . $e->getMessage();
+			}
               
            }
         }
                 $_SESSION["errorPMsg"]=" ";
                 $_SESSION["errorEMsg"]=" ";
             if(isset($_POST["loginUser"])){ 
-                $data=$_SESSION['userData'];
-                foreach($data as $user){
-                    if($user["email"]===$_POST["loginUser"] && $user["password"]===$_POST["loginPassword"] ){  
-                         $_SESSION['userName']=$user["name"];
-                         $_SESSION["errorPMsg"]=" ";
-                         $_SESSION["errorEMsg"]=" ";
-                        header('Location: welcome.php'); 
-                    }elseif($user["email"]!==$_POST["loginUser"]){
-                        // header("Location:index.php");
-                        $_SESSION["errorEMsg"]="Incorrect Email";
-                        $_SESSION["errorPMsg"]=" ";
-                    }elseif($user["email"]===$_POST["loginUser"] && $user["password"]!==$_POST["loginPassword"]){
-                        // header("Location:index.php");
-                        $_SESSION["errorPMsg"]="Incorrect password";
-                        $_SESSION["errorEMsg"]=" ";
-                        break;
-                    }
-                }
-            }
+				$loggedemail=$_POST["loginUser"];
+				$loggedpassword=$_POST["loginPassword"];
+                // $data=$_SESSION['userData'];
+                // foreach($data as $user){
+                //     if($user["email"]===$_POST["loginUser"] && $user["password"]===$_POST["loginPassword"] ){  
+                //          $_SESSION['userName']=$user["name"];
+                //          $_SESSION["errorPMsg"]=" ";
+                //          $_SESSION["errorEMsg"]=" ";
+                //         header('Location: welcome.php'); 
+                //     }elseif($user["email"]!==$_POST["loginUser"]){
+                //         $_SESSION["errorEMsg"]="Incorrect Email";
+                //         $_SESSION["errorPMsg"]=" ";
+                //     }elseif($user["email"]===$_POST["loginUser"] && $user["password"]!==$_POST["loginPassword"]){
+                //         $_SESSION["errorPMsg"]="Incorrect password";
+                //         $_SESSION["errorEMsg"]=" ";
+                //         break;
+                //     }
+                // }
+				try{
+					$connection=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
+				    // $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					$sql="SELECT * FROM users WHERE email='$loggedemail' AND password='$loggedpassword'";
+					$result=$connection->query($sql);
+					if($result->rowCount()!=0 ){
+						$row = $result->fetch(PDO::FETCH_ASSOC) ;
+							$_SESSION["userName"]=$row['username'];
+							$_SESSION["errorPMsg"]=" ";
+						    $_SESSION["errorEMsg"]=" ";
+							header('Location: welcome.php'); 
+
+				}else{
+					$_SESSION["errorEMsg"]="Invalid login";
+			        $_SESSION["errorPMsg"]=" ";
+				}
+            }catch(PDOException $e) {
+				echo "Error: " . $e->getMessage();
+			  }
+			}
        
         ?>
 	<div class="container-fluid">
@@ -169,7 +209,6 @@
 			<small id="passwordHelpInline" class="text-muted"> Developer:<a href="http://www.psau.edu.ph/"> Pampanga state agricultural university ?</a> BS. Information and technology students @2017 Credits: <a href="https://v4-alpha.getbootstrap.com/">boostrap v4.</a></small>
 		</p>
 	</div>
-	
     <script src="./index.js"> </script>
 	</body>
 	
