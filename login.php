@@ -121,11 +121,15 @@
 					$result=$connection->query($sql);
 					if($result->rowCount()!=0 ){
 						$row = $result->fetch(PDO::FETCH_ASSOC) ;
+						if($row['is_admin']==1){
+							header('Location: ./admin/index.html');
+						}else if($row['is_admin']==0){
 							$_SESSION["userName"]=$row['username'];
 							$_SESSION["errorPMsg"]=" ";
 						    $_SESSION["errorEMsg"]=" ";
 							header('Location: welcome.php'); 
-
+						}
+							
 				}else{
 					$_SESSION["errorEMsg"]="Invalid login";
 			        $_SESSION["errorPMsg"]=" ";
