@@ -83,8 +83,8 @@
 
 			try{
 				$connection=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
-				// $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				$sql="INSERT INTO users( `username`, `email`, `password`) VALUES ('$username','$useremail','$userpassword')";
+				$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$sql="INSERT INTO userdata( `username`, `email`, `password`,'is_admin') VALUES ('$username','$useremail','$userpassword','false')";
 				$connection->exec($sql);
 				echo "New record created successfully";
 			}catch(PDOExecption $e){
@@ -117,7 +117,7 @@
 				try{
 					$connection=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
 				    // $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-					$sql="SELECT * FROM users WHERE email='$loggedemail' AND password='$loggedpassword'";
+					$sql="SELECT * FROM userdata WHERE email='$loggedemail' AND password='$loggedpassword'";
 					$result=$connection->query($sql);
 					if($result->rowCount()!=0 ){
 						$row = $result->fetch(PDO::FETCH_ASSOC) ;

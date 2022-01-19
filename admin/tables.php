@@ -1,3 +1,7 @@
+<?php 
+  session_start();
+  include_once("../connection.php");
+   ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,9 +14,9 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>SB Admin 2 - Charts</title>
+    <title>SB Admin 2 - Tables</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link
       href="vendor/fontawesome-free/css/all.min.css"
       rel="stylesheet"
@@ -23,8 +27,14 @@
       rel="stylesheet"
     />
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this page -->
+    <link
+      href="vendor/datatables/dataTables.bootstrap4.min.css"
+      rel="stylesheet"
+    />
   </head>
 
   <body id="page-top">
@@ -148,8 +158,9 @@
           >
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Login Screens:</h6>
-              <a class="collapse-item" href="edit.php">Edit</a>
               <a class="collapse-item" href="create.php">Create</a>
+              <a class="collapse-item" href="edit.php">Edit</a>
+            
               <div class="collapse-divider"></div>
               <h6 class="collapse-header">Other Pages:</h6>
               <a class="collapse-item" href="404.html">404 Page</a>
@@ -159,7 +170,7 @@
         </li>
 
         <!-- Nav Item - Charts -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="charts.html">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Charts</span></a
@@ -167,7 +178,7 @@
         </li>
 
         <!-- Nav Item - Tables -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="tables.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Tables</span></a
@@ -193,12 +204,14 @@
             class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
           >
             <!-- Sidebar Toggle (Topbar) -->
-            <button
-              id="sidebarToggleTop"
-              class="btn btn-link d-md-none rounded-circle mr-3"
-            >
-              <i class="fa fa-bars"></i>
-            </button>
+            <form class="form-inline">
+              <button
+                id="sidebarToggleTop"
+                class="btn btn-link d-md-none rounded-circle mr-3"
+              >
+                <i class="fa fa-bars"></i>
+              </button>
+            </form>
 
             <!-- Topbar Search -->
             <form
@@ -483,70 +496,72 @@
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Charts</h1>
+            <h1 class="h3 mb-2 text-gray-800">Tables</h1>
             <p class="mb-4">
-              Chart.js is a third party plugin that is used to generate the
-              charts in this theme. The charts below have been customized - for
-              further customization options, please visit the
-              <a target="_blank" href="https://www.chartjs.org/docs/latest/"
-                >official Chart.js documentation</a
+              DataTables is a third party plugin that is used to generate the
+              demo table below. For more information about DataTables, please
+              visit the
+              <a target="_blank" href="https://datatables.net"
+                >official DataTables documentation</a
               >.
             </p>
 
-            <!-- Content Row -->
-            <div class="row">
-              <div class="col-xl-8 col-lg-7">
-                <!-- Area Chart -->
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                      Area Chart
-                    </h6>
-                  </div>
-                  <div class="card-body">
-                    <div class="chart-area">
-                      <canvas id="myAreaChart"></canvas>
-                    </div>
-                    <hr />
-                    Styling for the area chart can be found in the
-                    <code>/js/demo/chart-area-demo.js</code> file.
-                  </div>
-                </div>
-
-                <!-- Bar Chart -->
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
-                  </div>
-                  <div class="card-body">
-                    <div class="chart-bar">
-                      <canvas id="myBarChart"></canvas>
-                    </div>
-                    <hr />
-                    Styling for the bar chart can be found in the
-                    <code>/js/demo/chart-bar-demo.js</code> file.
-                  </div>
-                </div>
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <a href="create.php"> <h6 class="m-0 font-weight-bold text-primary">
+                Create User
+                </h6></a>
+               
               </div>
-
-              <!-- Donut Chart -->
-              <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                  <!-- Card Header - Dropdown -->
-                  <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                      Donut Chart
-                    </h6>
-                  </div>
-                  <!-- Card Body -->
-                  <div class="card-body">
-                    <div class="chart-pie pt-4">
-                      <canvas id="myPieChart"></canvas>
-                    </div>
-                    <hr />
-                    Styling for the donut chart can be found in the
-                    <code>/js/demo/chart-pie-demo.js</code> file.
-                  </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>username</th>
+                        <th>email</th>
+                        <th>password</th>
+                        <th>is_admin</th>
+                        <th>delete</th>
+                        <th>edit</th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>id</th>
+                        <th>username</th>
+                        <th>email</th>
+                        <th>password</th>
+                        <th>is_admin</th>
+                        <th>delete</th>
+                        <th>edit</th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <?php
+                      $sql="SELECT * FROM userdata ";
+                      $result=$connection->prepare($sql);
+                      $result->execute();
+                      foreach($result as $user){
+                       echo "<tr>";
+                       echo "<td>$user[id] </td>";
+                       echo "<td> $user[username] </td>";
+                       echo" <td> $user[email]</td>";
+                       echo "<td> $user[password] </td>";
+                       echo "<td> $user[is_admin] </td>";
+                       echo "<td><a href='delete.php?id=$user[id]'>Delete</a></td>";
+                       echo "<td><a href='edit.php?id=$user[id]'>Edit</a></td>";
+                       echo "</tr>";
+                       } ?>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -624,11 +639,10 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/demo/chart-bar-demo.js"></script>
+    <script src="js/demo/datatables-demo.js"></script>
   </body>
 </html>
