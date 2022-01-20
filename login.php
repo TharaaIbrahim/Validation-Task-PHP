@@ -83,8 +83,8 @@
 
 			try{
 				$connection=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
-				$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				$sql="INSERT INTO userdata( `username`, `email`, `password`,'is_admin') VALUES ('$username','$useremail','$userpassword','false')";
+				// $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$sql="INSERT INTO userdata( username, email, password, is_admin) VALUES ('$username','$useremail','$userpassword',0)";
 				$connection->exec($sql);
 				echo "New record created successfully";
 			}catch(PDOExecption $e){
@@ -116,7 +116,6 @@
                 // }
 				try{
 					$connection=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
-				    // $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 					$sql="SELECT * FROM userdata WHERE email='$loggedemail' AND password='$loggedpassword'";
 					$result=$connection->query($sql);
 					if($result->rowCount()!=0 ){
@@ -129,7 +128,9 @@
 						    $_SESSION["errorEMsg"]=" ";
 							header('Location: welcome.php'); 
 						}
-							
+						$sql = ("UPDATE userdata SET `date_last_login`=CURRENT_TIMESTAMP WHERE id='$row[id]'");
+						$result=$connection->prepare($sql);
+						$result->execute();
 				}else{
 					$_SESSION["errorEMsg"]="Invalid login";
 			        $_SESSION["errorPMsg"]=" ";
