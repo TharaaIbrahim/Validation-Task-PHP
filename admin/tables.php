@@ -565,7 +565,120 @@
                 </div>
               </div>
             </div>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <a href="createProduct.php"> <h6 class="m-0 font-weight-bold text-primary">
+                 Add Product
+                </h6></a>
+               
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>product_name</th>
+                        <th>product_img	</th>
+                        <th>price</th>
+                        <th>stock	</th>
+                        <th>description</th>
+                        <th>category</th>
+                        <th>delete</th>
+                        <th>edit</th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                    <th>id</th>
+                        <th>product_name</th>
+                        <th>product_img	</th>
+                        <th>price</th>
+                        <th>stock	</th>
+                        <th>description</th>
+                        <th>category</th>
+                        <th>delete</th>
+                        <th>edit</th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <?php
+                      $sql="SELECT products.id,products.product_name,products.product_img,products.price,products.price,products.description,products.stock,category.category_name FROM products INNER JOIN category ON products.category_id=category.id";
+                      $result=$connection->prepare($sql);
+                      $result->execute();
+                      foreach($result as $product){
+                       echo "<tr>";
+                       echo "<td>$product[id] </td>";
+                       echo "<td> $product[product_name] </td>";
+                       echo" <td> <img src='$product[product_img]'/></td>";
+                       echo "<td> $product[price] </td>";
+                       echo "<td> $product[stock] </td>";
+                       echo "<td> $product[description] </td>";
+                       echo "<td>$product[category_name]</td>";
+                       echo "<td><a href='delete.php?id=$product[id] && name=pro'>Delete</a></td>";
+                       echo "<td><a href='editProduct.php?id=$product[id]'>Edit</a></td>";
+                       echo "</tr>";
+                       } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
+          <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <a href="createCategory.php"> <h6 class="m-0 font-weight-bold text-primary">
+                Create Category
+                </h6></a>
+               
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>id</th>
+                        <th>category</th>
+                        <th>delete</th>
+                        <th>edit</th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                    <th>id</th>
+                        <th>category</th>
+                        <th>delete</th>
+                        <th>edit</th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <?php
+                      $sql="SELECT * FROM category ";
+                      $result=$connection->prepare($sql);
+                      $result->execute();
+                      foreach($result as $category){
+                       echo "<tr>";
+                       echo "<td>$category[Id] </td>";
+                       echo "<td> $category[category_name] </td>";
+                       echo "<td><a href='delete.php?id=$category[Id] && name=category'>Delete</a></td>";
+                       echo "<td><a href='editCategory.php?id=$category[Id]'>Edit</a></td>";
+                       echo "</tr>";
+                       } ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
